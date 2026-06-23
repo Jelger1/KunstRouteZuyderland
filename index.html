@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#286B86">
+  <meta name="description" content="Zuyderland Kunstroute – Ontdek kunst tijdens je herstel">
+  <title>Kunstroute Zuyderland</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/logo-zl-beeldmerk-A.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/logo-zl-beeldmerk-A.svg">
+</head>
+<body>
+  <div class="app-shell">
+    <main class="app-main">
+      <section id="screen-home" class="screen screen-home active" aria-labelledby="home-title">
+        <aside class="home-panel">
+          <div class="home-panel-top">
+            <div class="home-brand">
+              <img src="assets/icons/logo-zl-concern-B.svg" alt="Zuyderland" class="home-logo">
+              <div class="home-brand-copy">
+                <p class="brand-kicker">Zuyderland kunstroute</p>
+                <div class="home-status-row">
+                  <div class="location-badge" id="hospital-pill">
+                    <svg class="location-badge-icon" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5C2.5 9 8 16 8 16s5.5-7 5.5-10.5A5.53 5.53 0 0 0 8 0Zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                    <span id="hospital-name">Zuyderland</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="home-copy">
+              <p class="eyebrow">Jouw route begint hier</p>
+              <h1 id="home-title" class="home-title">Ontdek kunst op jouw tempo</h1>
+              <p class="home-description" id="home-description">
+                Welke schilderijen spreken jou aan? Tik op een kunstwerk om er meer over te ontdekken en bouw je eigen wandelroute.
+              </p>
+            </div>
+          </div>
+
+          <div class="home-panel-bottom">
+            <div class="route-status-bar" id="route-status-bar" aria-live="polite" aria-atomic="true">
+              <p class="route-status-text" id="route-status-text">Je hebt nog geen werk gekozen.</p>
+              <button class="btn btn-route-cta" id="btn-view-route" type="button" disabled>
+                Bekijk mijn route
+              </button>
+            </div>
+            <p class="home-help"><span id="stat-total-artworks">0</span> werken beschikbaar</p>
+          </div>
+        </aside>
+
+        <section class="art-stage" aria-label="Selecteer een kunstwerk">
+          <div class="art-stage-head">
+            <div>
+              <p class="eyebrow">Ontdek de collectie</p>
+              <h2 class="art-stage-title">Kies je favorieten</h2>
+            </div>
+            <button class="btn btn-secondary art-stage-reset" id="btn-home" type="button">Wis selectie</button>
+          </div>
+
+          <div class="floor-tabs" id="floor-tabs" role="tablist" aria-label="Kies een verdieping" hidden></div>
+          <div class="art-grid-flat" id="art-grid-flat" role="tabpanel"></div>
+        </section>
+      </section>
+
+      <section id="screen-detail" class="screen screen-detail" aria-labelledby="detail-title">
+        <div class="detail-layout">
+          <article class="detail-card">
+            <div class="detail-media" id="detail-media"></div>
+
+            <div class="detail-body">
+              <div class="detail-heading">
+                <p class="eyebrow">Kunstwerk</p>
+                <h2 id="detail-title"></h2>
+                <p class="detail-artist" id="detail-artist"></p>
+              </div>
+
+              <div class="detail-audio-player" id="detail-audio-player">
+                <button class="audio-play-btn" id="audio-play-btn" type="button" aria-label="Luister naar het verhaal"></button>
+                <div class="audio-track">
+                  <p class="audio-label" id="audio-label">Luister naar het verhaal</p>
+                  <div class="audio-progress-wrap">
+                    <div class="audio-progress-bar" id="audio-progress-bar"></div>
+                  </div>
+                </div>
+                <audio id="detail-audio" preload="none"></audio>
+              </div>
+
+              <p class="detail-description" id="detail-description"></p>
+
+              <div class="detail-location-row">
+                <svg class="detail-location-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5C2.5 9 8 16 8 16s5.5-7 5.5-10.5A5.53 5.53 0 0 0 8 0Zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+                <span id="detail-location"></span>
+              </div>
+
+              <div class="detail-actions">
+                <button class="btn btn-primary btn-large" id="btn-walk" type="button">Voeg toe aan route</button>
+                <button class="btn btn-secondary btn-large" id="btn-back" type="button">&#8592; Terug</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="screen-route" class="screen screen-route" aria-labelledby="route-title">
+        <div class="route-overview">
+          <div class="route-overview-header">
+            <button class="btn btn-ghost" id="btn-back-to-home" type="button">&#8592; Terug naar kunst</button>
+            <div class="route-overview-title-row">
+              <h2 id="route-title">Jouw route</h2>
+              <button class="btn btn-ghost btn-reset-route" id="btn-reset-route" type="button">Alles wissen</button>
+            </div>
+            <p class="route-overview-meta" id="route-overview-meta"></p>
+          </div>
+          <div class="route-overview-list" id="route-overview-list"></div>
+          <div class="route-overview-footer">
+            <button class="btn btn-primary btn-large" id="btn-start-route" type="button">Start de route</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-walk" class="screen screen-walk" aria-label="Actieve route">
+
+        <!-- Step A + B: Navigation -->
+        <div class="walk-nav-view" id="walk-nav-view">
+          <header class="walk-header">
+            <p class="walk-progress" id="walk-progress" aria-live="polite"></p>
+            <button class="btn btn-ghost walk-quit-btn" id="btn-walk-quit" type="button">&#x2715; Stoppen</button>
+          </header>
+          <div class="walk-progress-dots" id="walk-progress-dots" aria-hidden="true"></div>
+          <div class="walk-direction-card">
+            <p class="walk-floor-label" id="walk-floor-label"></p>
+            <p class="walk-direction" id="walk-direction"></p>
+            <p class="walk-motivation" id="walk-motivation"></p>
+          </div>
+          <footer class="walk-nav-footer">
+            <button class="btn btn-primary btn-large btn-arrived" id="btn-arrived" type="button">Ik ben er!</button>
+          </footer>
+        </div>
+
+        <!-- Step C + D: Reward -->
+        <article class="walk-reward-view" id="walk-reward-view" hidden>
+          <div class="walk-reward-media" id="walk-reward-media"></div>
+          <div class="walk-reward-body">
+            <div class="walk-reward-heading">
+              <p class="eyebrow">Je bent er!</p>
+              <h2 id="walk-reward-title"></h2>
+              <p class="walk-reward-artist" id="walk-reward-artist"></p>
+            </div>
+            <div class="detail-audio-player" id="walk-audio-player">
+              <button class="audio-play-btn" id="walk-audio-play-btn" type="button" aria-label="Luister naar het verhaal"></button>
+              <div class="audio-track">
+                <p class="audio-label" id="walk-audio-label">Luister naar het verhaal</p>
+                <div class="audio-progress-wrap">
+                  <div class="audio-progress-bar" id="walk-audio-progress-bar"></div>
+                </div>
+              </div>
+              <audio id="walk-audio" preload="none"></audio>
+            </div>
+            <p class="walk-reward-story" id="walk-reward-story"></p>
+            <div class="walk-reward-actions">
+              <div class="walk-next-hint" id="walk-next-hint" hidden>
+                <p class="walk-next-hint-label">Daarna</p>
+                <p class="walk-next-hint-text" id="walk-next-hint-text"></p>
+              </div>
+              <button class="btn btn-primary btn-large" id="btn-next-artwork" type="button">Volgend kunstwerk &#x2192;</button>
+              <button class="btn btn-secondary" id="btn-walk-quit-reward" type="button">Route be&#xEB;indigen</button>
+            </div>
+          </div>
+        </article>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/routes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
