@@ -646,13 +646,6 @@
     const footer = document.createElement("div");
     footer.className = "art-card-footer";
 
-    if (state.visitedIds.has(artwork.id)) {
-      const status = document.createElement("span");
-      status.className = "art-card-status";
-      status.textContent = "In jouw route";
-      footer.appendChild(status);
-    }
-
     const action = document.createElement("span");
     action.className = "art-card-action";
     action.textContent = "Ontdek";
