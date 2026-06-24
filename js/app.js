@@ -38,7 +38,10 @@
     visitedIds: new Set(),
     detailRenderToken: 0,
     feedbackTimer: null,
-    walkSession: { active: false, artworks: [], index: 0, step: "nav" }
+    walkSession: { active: false, artworks: [], index: 0, step: "nav" },
+    galleryImageIndices: {},
+    galleryImageTimer: null,
+    detailImageTimer: null
   };
 
   // ── Auto-scroll: Discovery Mode marquee affordance ────────
@@ -423,6 +426,7 @@
 
   function showScreen(name) {
     stopAudio();
+    stopDetailCycling();
 
     Object.keys(screens).forEach(function (key) {
       const isActive = key === name;
@@ -573,8 +577,10 @@
     const container = dom.artGridFlat;
     if (!container) return;
 
+    stopGalleryCycling();
     autoScroll.destroy();
     container.innerHTML = "";
+    state.galleryImageIndices = {};
 
     // All artworks rendered flat – no floor filter
     const artworks = state.route.artworks;
@@ -586,7 +592,10 @@
     if (artworks.length > 2) {
       requestAnimationFrame(function () {
         autoScroll.init(container, artworks);
+        startGalleryCycling();
       });
+    } else {
+      startGalleryCycling();
     }
   }
 
@@ -611,6 +620,13 @@
     media.className = "art-card-media";
     media.style.background = visual;
 
+    if (artwork.images && artwork.images.length > 0) {
+      media.style.backgroundImage = 'url("' + artwork.images[0] + '")';
+      media.style.backgroundSize = "cover";
+      media.style.backgroundPosition = "center";
+      media.classList.add("has-image");
+    }
+
     const check = document.createElement("span");
     check.className = "art-card-check";
     check.setAttribute("aria-hidden", "true");
@@ -618,6 +634,7 @@
     media.appendChild(check);
 
     const initial = document.createElement("span");
+    initial.className = "art-card-initial";
     initial.textContent = artwork.title.charAt(0).toUpperCase();
     media.appendChild(initial);
 
@@ -726,6 +743,7 @@
       return;
     }
 
+    stopDetailCycling();
     state.detailRenderToken += 1;
     const renderToken = state.detailRenderToken;
     const visual = getArtworkVisual(artwork.id);
@@ -738,6 +756,7 @@
     dom.detailMedia.style.backgroundPosition = "center";
 
     const initial = document.createElement("span");
+    initial.className = "art-card-initial";
     initial.textContent = artwork.title.charAt(0).toUpperCase();
     dom.detailMedia.appendChild(initial);
 
@@ -755,6 +774,7 @@
       dom.detailMedia.classList.add("has-image");
       dom.detailMedia.style.backgroundImage =
         "linear-gradient(180deg, rgba(16, 41, 58, 0.12), rgba(16, 41, 58, 0.5)), url(\"" + detailImage + "\")";
+      startDetailCycling(artwork, dom.detailMedia, renderToken);
     });
     image.src = detailImage;
   }
@@ -1004,6 +1024,7 @@
     mediaEl.style.backgroundPosition = "center";
 
     var initial = document.createElement("span");
+    initial.className = "art-card-initial";
     initial.textContent = artwork.title.charAt(0).toUpperCase();
     mediaEl.appendChild(initial);
 
@@ -1016,6 +1037,7 @@
       mediaEl.classList.add("has-image");
       mediaEl.style.backgroundImage =
         "linear-gradient(180deg, rgba(16,41,58,0.12), rgba(16,41,58,0.5)), url(\"" + detailImage + "\")";
+      startDetailCycling(artwork, mediaEl, renderToken);
     });
     image.src = detailImage;
   }
@@ -1195,11 +1217,67 @@
   }
 
   function resolveDetailImage(artwork) {
-    if (artwork && ROUTE_DETAIL_IMAGES[state.locationKey]) {
-      return ROUTE_DETAIL_IMAGES[state.locationKey];
+    if (artwork && artwork.images && artwork.images.length > 0) {
+      return artwork.images[0];
     }
-
     return null;
+  }
+
+  // ── Image cycling helpers ──────────────────────────────────
+
+  function startGalleryCycling() {
+    stopGalleryCycling();
+    if (!state.route) { return; }
+    var hasCycleArtworks = state.route.artworks.some(function (a) {
+      return a.images && a.images.length > 1;
+    });
+    if (!hasCycleArtworks) { return; }
+    state.galleryImageTimer = setInterval(function () {
+      var container = dom.artGridFlat;
+      if (!container) { return; }
+      container.querySelectorAll('[data-artwork-id]').forEach(function (card) {
+        var artId = card.dataset.artworkId;
+        var artwork = findArtwork(artId);
+        if (!artwork || !artwork.images || artwork.images.length <= 1) { return; }
+        var current = state.galleryImageIndices[artId] || 0;
+        var next = (current + 1) % artwork.images.length;
+        state.galleryImageIndices[artId] = next;
+        var media = card.querySelector('.art-card-media');
+        if (media) {
+          media.style.backgroundImage = 'url("' + artwork.images[next] + '")';
+        }
+      });
+    }, 3500);
+  }
+
+  function stopGalleryCycling() {
+    if (state.galleryImageTimer) {
+      clearInterval(state.galleryImageTimer);
+      state.galleryImageTimer = null;
+    }
+  }
+
+  function startDetailCycling(artwork, mediaEl, renderToken) {
+    stopDetailCycling();
+    if (!artwork.images || artwork.images.length <= 1) { return; }
+    var idx = 0;
+    state.detailImageTimer = setInterval(function () {
+      if (renderToken !== state.detailRenderToken) {
+        stopDetailCycling();
+        return;
+      }
+      idx = (idx + 1) % artwork.images.length;
+      mediaEl.classList.add('has-image');
+      mediaEl.style.backgroundImage =
+        'linear-gradient(180deg, rgba(16, 41, 58, 0.12), rgba(16, 41, 58, 0.5)), url("' + artwork.images[idx] + '")';
+    }, 4000);
+  }
+
+  function stopDetailCycling() {
+    if (state.detailImageTimer) {
+      clearInterval(state.detailImageTimer);
+      state.detailImageTimer = null;
+    }
   }
 
   function getCurrentArtwork() {

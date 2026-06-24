@@ -544,6 +544,11 @@ p {
   z-index: 1;
 }
 
+/* Hide the letter initial when an actual artwork photo is loaded */
+.art-card-media.has-image .art-card-initial {
+  display: none;
+}
+
 .art-card-body {
   display: flex;
   flex-direction: column;
