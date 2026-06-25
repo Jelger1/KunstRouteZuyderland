@@ -228,54 +228,8 @@ const ROUTES = {
         emotions: ["Door wat ik deed", "Door wie ik was", "Door wat ik zei", "Door wat ik gaf"],
         navigation: {
           arrow: "→",
-          direction: "Loop naar rechtsachter in de centrale hal, richting het herentoilet",
-          distance: 25,
-          motivation: "Tegenover het herentoilet hangt werk uit een bijzondere fotoserie."
-        }
-      },
-      {
-        id: "h9",
-        title: "Uit de serie Futuros",
-        artist: "Jaqueline M. de Souza",
-        images: [],
-        audio: "assets/audio/heerlen-09.mp3",
-        location: "Begane grond — centrale hal, tegenover het herentoilet",
-        findMe: "Dit werk hangt in de centrale hal, tegenover het herentoilet (rechtsachter).",
-        description: "Werk uit de serie Futuros van Jaqueline M. de Souza, vol kleur en visie op de toekomst.",
-        audioText: "Uit de serie Futuros van Jaqueline M. de Souza. Futuros betekent toekomsten. De kunstenares verbeeldt mogelijke werelden, vol hoop en energie. Een passend thema op een plek waar mensen werken aan hun herstel en hun toekomst.",
-        quote: {
-          text: "\"Dit werk geeft me het gevoel dat er altijd iets moois voor ons ligt.\"",
-          author: "— Patiënte Zuyderland"
-        },
-        question: "Wat hoop jij dat de toekomst voor jou brengt?",
-        emotions: ["Gezondheid", "Verbinding", "Rust", "Avontuur"],
-        navigation: {
-          arrow: "←",
-          direction: "Loop terug richting de servicedesk",
-          distance: 20,
-          motivation: "Tegenover de servicedesk hangen de Jaarprenten van Zuyderland."
-        }
-      },
-      {
-        id: "h10",
-        title: "Jaarprenten Zuyderland",
-        artist: "Onbekende kunstenaar",
-        images: [],
-        audio: "assets/audio/heerlen-10.mp3",
-        location: "Begane grond — tegenover de servicedesk",
-        findMe: "De Jaarprenten hangen tegenover de servicedesk op de begane grond.",
-        description: "Een serie jaarprenten die de historische groei en ontwikkeling van Zuyderland in beeld brengt.",
-        audioText: "Hier hangen de Jaarprenten van Zuyderland. Elk jaar werd een prent gemaakt die een moment in de geschiedenis van dit ziekenhuis vastlegt. Samen vertellen ze het verhaal van decennia zorg voor mensen in deze regio.",
-        quote: {
-          text: "\"Als oud-medewerker herken ik mezelf in de geschiedenis die hier hangt.\"",
-          author: "— Voormalig medewerker Zuyderland"
-        },
-        question: "Hoe lang ken jij Zuyderland al?",
-        emotions: ["Eerste keer", "Al jaren", "Mijn hele leven", "Ik werk hier"],
-        navigation: {
-          arrow: "→",
-          direction: "Loop richting gang oost, naar wachtkamer 3 vanuit de servicedesk",
-          distance: 40,
+          direction: "Loop richting gang oost, naar wachtkamer 3",
+          distance: 60,
           motivation: "In gang oost hangt een werk met een bijzondere naam."
         }
       },
@@ -345,30 +299,7 @@ const ROUTES = {
           arrow: "→",
           direction: "Loop richting de stilteruimte",
           distance: 40,
-          motivation: "In de stilteruimte zijn twee bijzondere werken te vinden."
-        }
-      },
-      {
-        id: "h14",
-        title: "Titel onbekend",
-        artist: "Marianne van der Heijden",
-        images: [],
-        audio: "assets/audio/heerlen-14.mp3",
-        location: "Begane grond — stilteruimte",
-        findMe: "Dit werk bevindt zich in de stilteruimte op de begane grond.",
-        description: "Een werk van Marianne van der Heijden dat bijdraagt aan de sfeer van bezinning in de stilteruimte.",
-        audioText: "Je bent nu in de stilteruimte. Dit werk van Marianne van der Heijden is geselecteerd voor deze bijzondere plek. Kunst krijgt in een ruimte voor rust en bezinning een andere kwaliteit. Neem even de tijd.",
-        quote: {
-          text: "\"Deze ruimte is voor iedereen — gelovig of niet. En dit werk past daar perfect bij.\"",
-          author: "— Geestelijk verzorger Zuyderland"
-        },
-        question: "Wat helpt jou om tot rust te komen?",
-        emotions: ["Stilte", "Muziek", "Natuur", "Meditatie"],
-        navigation: {
-          arrow: "→",
-          direction: "Kijk ook naar het andere werk in de stilteruimte",
-          distance: 5,
-          motivation: "Claude Jongstra heeft ook een werk in deze ruimte."
+          motivation: "In de stilteruimte hangt een bijzonder werk van Claude Jongstra."
         }
       },
       {
@@ -728,31 +659,8 @@ const ROUTES = {
         emotions: ["Ja", "Misschien", "Nee", "Weet niet"],
         navigation: {
           arrow: "→",
-          direction: "Loop richting het wervelkolomcentrum, tussen kamer 42 en 43",
-          distance: 40,
-          motivation: "Bij het wervelkolomcentrum hangt een werk van Keetje Mans."
-        }
-      },
-      {
-        id: "h29",
-        title: "Zonder titel",
-        artist: "Keetje Mans",
-        images: [],
-        audio: "assets/audio/heerlen-29.mp3",
-        location: "Eerste etage — wervelkolomcentrum, tussen kamer 42 en 43",
-        findMe: "Dit werk van Keetje Mans hangt in het wervelkolomcentrum, tussen kamer 42 en 43.",
-        description: "Een werk van Keetje Mans in het wervelkolomcentrum, een afdeling gespecialiseerd in rugklachten en beweging.",
-        audioText: "Zonder titel van Keetje Mans, geplaatst in het wervelkolomcentrum. De wervelkolom is de ruggengraat van ons lichaam — letterlijk en figuurlijk. Mans maakt werk dat ook iets heeft van ruggengraat: helder, rechtdoor, zonder omwegen.",
-        quote: {
-          text: "\"Patiënten met rugklachten kijken hier graag naar. Afleiding doet wonderen.\"",
-          author: "— Orthopedisch chirurg Zuyderland"
-        },
-        question: "Hoe ga jij om met lichamelijk ongemak?",
-        emotions: ["Bewegen", "Rust nemen", "Medicatie", "Afleiding zoeken"],
-        navigation: {
-          arrow: "→",
           direction: "Loop richting kamer 11 en 12, bij wachtkamer 6",
-          distance: 35,
+          distance: 75,
           motivation: "Tussen kamer 11 en 12 hangt een werk van André Dieteren."
         }
       },
