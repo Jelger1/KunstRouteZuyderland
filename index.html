@@ -63,9 +63,20 @@
           <div class="floor-tabs" id="floor-tabs" role="tablist" aria-label="Kies een verdieping" hidden></div>
           <div class="art-grid-flat" id="art-grid-flat" role="tabpanel"></div>
         </section>
+
+        <div class="mobile-route-footer" id="mobile-route-footer" aria-live="polite" aria-atomic="true">
+          <p class="route-status-text" id="mobile-route-status-text">Jouw route is nog leeg.</p>
+          <button class="btn btn-route-cta" id="mobile-btn-view-route" type="button" disabled>
+            Bekijk mijn route
+          </button>
+        </div>
       </section>
 
       <section id="screen-detail" class="screen screen-detail" aria-labelledby="detail-title">
+        <div class="mobile-screen-header">
+          <button class="btn btn-ghost mobile-back-btn" id="btn-back-mobile" type="button">&#8592; Terug</button>
+          <p class="eyebrow">Kunstwerk</p>
+        </div>
         <div class="detail-layout">
           <article class="detail-card">
             <div class="detail-media" id="detail-media"></div>

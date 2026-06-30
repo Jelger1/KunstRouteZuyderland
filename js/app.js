@@ -178,7 +178,12 @@
     walkNextHint: document.getElementById("walk-next-hint"),
     walkNextHintText: document.getElementById("walk-next-hint-text"),
     walkProgressDots: document.getElementById("walk-progress-dots"),
-    btnResetRoute: document.getElementById("btn-reset-route")
+    btnResetRoute: document.getElementById("btn-reset-route"),
+    // Mobiele elementen
+    mobileRouteFooter: document.getElementById("mobile-route-footer"),
+    mobileRouteStatusText: document.getElementById("mobile-route-status-text"),
+    mobileBtnViewRoute: document.getElementById("mobile-btn-view-route"),
+    btnBackMobile: document.getElementById("btn-back-mobile")
   };
 
   function init() {
@@ -246,6 +251,41 @@
         showScreen("home");
       });
     }
+
+    // Mobiel: terugknop bovenaan detailscherm
+    if (dom.btnBackMobile) {
+      dom.btnBackMobile.addEventListener("click", function () {
+        showScreen("home");
+      });
+    }
+
+    // Mobiel: route-CTA in de onderbalk
+    if (dom.mobileBtnViewRoute) {
+      dom.mobileBtnViewRoute.addEventListener("click", function () {
+        if (state.visitedIds.size === 0) { return; }
+        renderRouteOverview();
+        showScreen("route");
+      });
+    }
+
+    // Mobiel: veeg rechts op detailscherm → terug naar home
+    (function () {
+      var swipeStartX = 0;
+      var swipeStartY = 0;
+      var el = screens.detail;
+      if (!el) { return; }
+      el.addEventListener("touchstart", function (e) {
+        swipeStartX = e.touches[0].clientX;
+        swipeStartY = e.touches[0].clientY;
+      }, { passive: true });
+      el.addEventListener("touchend", function (e) {
+        var dx = e.changedTouches[0].clientX - swipeStartX;
+        var dy = e.changedTouches[0].clientY - swipeStartY;
+        if (dx > 70 && Math.abs(dy) < 60) {
+          showScreen("home");
+        }
+      }, { passive: true });
+    }());
 
     if (dom.btnBackToHome) {
       dom.btnBackToHome.addEventListener("click", function () {
@@ -485,6 +525,24 @@
       dom.btnViewRoute.setAttribute("aria-disabled", String(!hasItems));
       dom.btnViewRoute.classList.toggle("has-items", hasItems);
     }
+
+    // Sync mobiele route-footer
+    var mobileText = count === 0 ? "Jouw route is nog leeg."
+      : count === 1 ? "1 werk toegevoegd aan je route."
+      : count + " werken toegevoegd aan je route.";
+
+    if (dom.mobileRouteStatusText) {
+      dom.mobileRouteStatusText.textContent = mobileText;
+    }
+    if (dom.mobileRouteFooter) {
+      dom.mobileRouteFooter.classList.toggle("has-items", count > 0);
+    }
+    if (dom.mobileBtnViewRoute) {
+      var mobileHasItems = count > 0;
+      dom.mobileBtnViewRoute.disabled = !mobileHasItems;
+      dom.mobileBtnViewRoute.setAttribute("aria-disabled", String(!mobileHasItems));
+      dom.mobileBtnViewRoute.classList.toggle("has-items", mobileHasItems);
+    }
   }
 
   function getFloor(artwork) {
@@ -591,7 +649,10 @@
     // Initialise auto-scroll after the browser has painted the new cards
     if (artworks.length > 2) {
       requestAnimationFrame(function () {
-        autoScroll.init(container, artworks);
+        // Auto-scroll alleen op tablet/desktop; op mobiel native swipe behouden
+        if (window.innerWidth > 600) {
+          autoScroll.init(container, artworks);
+        }
         startGalleryCycling();
       });
     } else {
